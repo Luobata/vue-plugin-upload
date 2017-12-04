@@ -12,6 +12,7 @@ vue.use(upload, {
     // min: 100 * 1024,
     max: null,
     isMultiple: true,
+    resBase: '//t.focus-res.cn/front-end/upload/',
     cap: {
         minWid: 50,
         maxWid: 800,

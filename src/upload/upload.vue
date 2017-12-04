@@ -31,10 +31,6 @@
         filter: alpha(opacity=0);
         z-index: 100;
     }
-    .upload-swf .upload-btn {
-        width: 100%;
-        height: 100%;
-    }
 </style>
 <script src="./upload.js">
 </script>

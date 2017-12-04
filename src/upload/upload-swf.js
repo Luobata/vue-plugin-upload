@@ -1,18 +1,17 @@
 import lib from './lib';
 import format from './format';
+import { config } from './config';
 let loading = false;
 let initList = [];
 // const resBase = 'http://changyan.itc.cn/mdevp/extensions/cui/002/swfupload.v2.2.0/';
-const resBase = '//t.focus-res.cn/front-end/upload/';
+const resBase = config.resBase || '//t.focus-res.cn/front-end/upload/';
 
 var setting = {
-    flash_url: resBase + 'swfupload.swf',
     prevent_swf_caching: false,
     file_size_limit: '1 MB',
     file_post_name: 'file',
     file_types: '*.jpg;*.png;*.gif;*.jpeg',
     button_text: '',
-    button_image_url: resBase + 'swfupload.js?button_image_url',
 };
 
 function upload(dom, conf) {
@@ -28,8 +27,10 @@ function upload(dom, conf) {
         var fn = conf.fn;
         conf.fn = function (response, file) {
             // 校验大小
-            if (typeof response === 'string') response = JSON.parse(response);
-            fn.apply(this, arguments);
+            if (typeof response === 'string') {
+                response = JSON.parse(response);
+            }
+            fn.call(this, response, file);
         }
         uploader.create(dom, conf);
     }
@@ -62,18 +63,9 @@ var fnInit = function ($dom, conf) {
     var height = lib.getHeight($dom);
     var width = lib.getWidth($dom);
 
-    //if (lib.css($dom, 'position') === 'static' || lib.css($dom, 'position') === '') {
-    //    lib.css($dom, 'position', 'relative');
-    //}
-    //var id = 'id-' + (+new Date());
-    //var html = '\
-    //        <span style="position: absolute; top: 0; left: 0; height: ' + height + 'px; width: ' + width + 'px; overflow: hidden; opacity: 0; filter:alpha(opacity=0); z-index: 100;">\
-    //            <span  id="' + id + '"></span>\
-    //        </span>\
-    //    ';
-    //lib.prepend($dom, html);
-
     var _setting = lib.extends(setting, {
+        flash_url: config.resBase + 'swfupload.swf',
+        button_image_url: config.resBase + 'swfupload.js?button_image_url',
         upload_url: conf.uploadUrl,
         button_placeholder_id: conf.id,
         button_width: width,
@@ -109,7 +101,7 @@ var uploader = {
             }
 
             loading = true;
-            fnLoadScript(resBase + 'swfupload.js', function () {
+            fnLoadScript(config.resBase + 'swfupload.js', function () {
                 loading = false;
 
                 var i, item;
