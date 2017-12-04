@@ -1,6 +1,8 @@
 import app from './upload/upload.vue';
+import { setConfig } from './upload/config';
 
-const install = (Vue) => {
+const install = (Vue, config) => {
+    setConfig(config);
     Vue.component(app.name, app);
 };
 

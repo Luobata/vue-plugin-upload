@@ -1,6 +1,23 @@
 <template lang="pug">
     div.upload-html(v-if="isHtml5")
-        span 123
+        input.upload-btn(type="file" :multiple="multiple" @change="upload")
 </template>
+<style scoped>
+    .upload-html {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .upload-html .upload-btn {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer;
+        z-index: 100;
+    }
+</style>
 <script src="./upload.js">
 </script>
