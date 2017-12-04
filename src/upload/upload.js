@@ -2,6 +2,7 @@ import lib from './lib';
 import { config } from './config';
 import { validateConf, validateSize, validateType, validateCap } from './validate';
 import ajax from './ajax';
+import uploadSwf from './upload-swf';
 
 const lint = function (file) {
     let result = {
@@ -48,15 +49,17 @@ export default {
         return {
             isHtml5: true,
             conf: {},
+            id: 0,
         };
     },
     beforeMount () {
-        this.isHtml5 = !!(window.File);
+        this.extendConf();
+        this.isHtml5 = !(window.File);
+        this.conf.id = 'id-' + (+new Date());
     },
-    watcher: {
+    watch: {
         config: function () {
-            const globalConf = Object.assing({}, config);
-            this.conf = Object.assign(globalConf, this.config);
+            this.extendConf();
         },
     },
     computed: {
@@ -70,8 +73,16 @@ export default {
         if (lib.css(parent, 'position') === 'static' || lib.css(parent, 'position') === '') {
             lib.css(parent, 'position', 'relative');
         }
+
+        if (!this.isHtml5) {
+            uploadSwf(this.$el, this.conf);
+        }
     },
     methods: {
+        extendConf () {
+            const globalConf = Object.assign({}, config);
+            this.conf = Object.assign(globalConf, this.config);
+        },
         isImg () {
             return true;
         },
@@ -104,7 +115,7 @@ export default {
                 hack: {
                     var success = this.conf.fn;
                     this.conf.fn = (res, file) => {
-                        this.uploadDom.value = '';
+                        this.$refs['upload-btn'].value = '';
                         if (this.conf.cap && this.conf.cap.validate && this.isImg()) {
                             validateCap.call(this, this.conf.cap.validate(res))
                                 .then(() => {
@@ -112,6 +123,8 @@ export default {
                                 }, (error) => {
                                     success.call(this, error);
                                 });
+                        } else {
+                            success.call(this, res, file);
                         }
                     };
                 }

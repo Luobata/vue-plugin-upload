@@ -2,7 +2,7 @@
     <div id="app">
         <div class="upload-1">
             <div class="dom"></div>
-            <upload>
+            <upload :config="config">
             </upload>
         </div>
     </div>
@@ -23,6 +23,15 @@
 </style>
 <script>
     export default {
+        data () {
+            return {
+                config: {
+                    fn: function (res) {
+                        console.log(res);
+                    }
+                },
+            };
+        },
         methods: {
             changeCity (city) {
                 console.log(city);
