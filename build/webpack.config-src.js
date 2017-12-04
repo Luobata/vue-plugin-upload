@@ -8,8 +8,8 @@ module.exports = {
     entry:  root + "/src/index_global.js",
     output: {
         path: root + "/dist/",
-        libraryTarget: 'umd',
-        filename: "header.js"
+        libraryTarget: 'commonjs',
+        filename: "upload.js"
     },
 
     module: {

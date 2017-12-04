@@ -1,8 +1,4 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(factory());
-}(this, (function () { 'use strict';
+'use strict';
 
 var __vue_module__ = {
     name: 'upload',
@@ -46,6 +42,4 @@ if (typeof window !== 'undefined' && window.Vue) {
 module.exports = {
     install: install
 };
-
-})));
 //# sourceMappingURL=upload.js.map

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "rollup -w -c build/rollup.config.js",
+    "dev:webpack": "node build/build.js",
     "build": "rollup -c build/rollup.config.js",
-    "build-w": "node build/build.js",
     "test": "node build/dev-server.js"
   },
   "devDependencies": {

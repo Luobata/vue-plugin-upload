@@ -18,7 +18,7 @@ module.exports = {
     sourcemap: true,
     output: {
         file: 'dist/upload.js',
-        format: 'umd'
+        format: 'cjs'
     },
     plugins: [
         // uglify(),
@@ -26,7 +26,6 @@ module.exports = {
         commonjs(),
         vue({
             css: true
-            //css: 'dist/header.css'
         }),
         url(),
         babel({
