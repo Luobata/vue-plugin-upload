@@ -11,6 +11,7 @@
         position: absolute;
         top: 0;
         left: 0;
+        font-size: 0;
     }
     .upload-html .upload-btn {
         width: 100%;

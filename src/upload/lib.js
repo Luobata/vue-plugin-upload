@@ -72,6 +72,33 @@ const lib = {
             dom.style[sty] = newSty;
             return dom;
         }
+    },
+    fnLoadScript: (src, fun) => {
+        const head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+
+        const script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('charset', 'UTF-8');
+        script.setAttribute('src', src);
+
+        if (typeof fun === 'function') {
+            if (window.attachEvent) {
+                script.onreadystatechange = function () {
+                    var r = script.readyState;
+                    if (r === 'loaded' || r === 'complete') {
+                        script.onreadystatechange = null;
+                        fun();
+                    }
+                };
+            } else {
+                script.onload = fun;
+            }
+        }
+
+        head.appendChild(script);
+    },
+    isImg () {
+        return true;
     }
 };
 

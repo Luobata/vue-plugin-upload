@@ -21,16 +21,16 @@ export const validateSize = function (size) {
     return (!this.conf.min || size >= this.conf.min) && (!this.conf.max || size <= this.conf.max);
 };
 // 校验文件大小
-export const validateCap = function (img) {
+export const validateCap = function (img, conf) {
     return new Promise((resolve, reject) => {
         const val = (img) => {
             const width = img.width;
             const height = img.height;
-            const cap = this.conf.cap;
-            if ((cap.minWid && width < cap.minWid) ||
-                (cap.maxWid && width > cap.maxWid) ||
-                (cap.minHei && height < cap.minHei) ||
-                (cap.maxHei && height > cap.maxHei)
+            const size = conf.size;
+            if ((size.minWid && width < size.minWid) ||
+                (size.maxWid && width > size.maxWid) ||
+                (size.minHei && height < size.minHei) ||
+                (size.maxHei && height > size.maxHei)
             ) {
                 reject({
                     error: '图片尺寸不符合要求!'

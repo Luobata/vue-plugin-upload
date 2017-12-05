@@ -11,6 +11,15 @@ export const config = {
     beforeUpload: noop,
     fn: noop,
     progress: noop,
+    resBase: '//t.focus-res.cn/front-end/upload/',
+    size: {
+        minWid: null,
+        minHei: null,
+        maxWid: null,
+        maxHei: null,
+        validate: null,
+    },
+    forceFlash: false,
 };
 
 export const setConfig = (obj: Object) => {

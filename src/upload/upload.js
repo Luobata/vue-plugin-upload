@@ -54,7 +54,7 @@ export default {
     },
     beforeMount () {
         this.extendConf();
-        this.isHtml5 = !(window.File);
+        this.isHtml5 = !!(window.File) && !config.forceFlash;
         this.conf.id = 'id-' + (+new Date());
     },
     watch: {
@@ -116,8 +116,8 @@ export default {
                     var success = this.conf.fn;
                     this.conf.fn = (res, file) => {
                         this.$refs['upload-btn'].value = '';
-                        if (this.conf.cap && this.conf.cap.validate && this.isImg()) {
-                            validateCap.call(this, this.conf.cap.validate(res))
+                        if (this.conf.size && this.conf.size.validate && this.isImg()) {
+                            validateCap.call(null, this.conf.size.validate(res), this.conf)
                                 .then(() => {
                                     success.call(this, res, file);
                                 }, (error) => {

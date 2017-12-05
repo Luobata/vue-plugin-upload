@@ -13,7 +13,7 @@ vue.use(upload, {
     max: null,
     isMultiple: true,
     resBase: '//t.focus-res.cn/front-end/upload/',
-    cap: {
+    size: {
         minWid: 50,
         maxWid: 800,
         minHei: 60,
@@ -25,6 +25,7 @@ vue.use(upload, {
             return img;
         }
     },
+    forceFlash: true,
 });
 
 new vue({
