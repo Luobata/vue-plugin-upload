@@ -25,7 +25,6 @@ vue.use(upload, {
             return img;
         }
     },
-    forceFlash: true,
 });
 
 new vue({

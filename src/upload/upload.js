@@ -5,7 +5,7 @@ import ajax from './ajax';
 import uploadSwf from './upload-swf';
 
 const lint = function (file) {
-    let result = {
+    const result = {
         error: '',
         errorType: 0
     };
@@ -27,7 +27,7 @@ const lint = function (file) {
 };
 
 const uploadAjax = (file, name, conf) => {
-    let formData = new FormData();
+    const formData = new FormData();
     const uploadData = {
         name: conf.fileName,
         file: file
@@ -83,9 +83,6 @@ export default {
             const globalConf = Object.assign({}, config);
             this.conf = Object.assign(globalConf, this.config);
         },
-        isImg () {
-            return true;
-        },
         upload (e) {
             const file = e.target.files;
             let i;
@@ -113,10 +110,10 @@ export default {
                 const lintFile = lint.call(this, item);
                 // hack onchange
                 hack: {
-                    var success = this.conf.fn;
+                    const success = this.conf.fn;
                     this.conf.fn = (res, file) => {
                         this.$refs['upload-btn'].value = '';
-                        if (this.conf.size && this.conf.size.validate && this.isImg()) {
+                        if (this.conf.size && this.conf.size.validate && lib.isImg()) {
                             validateCap.call(null, this.conf.size.validate(res), this.conf)
                                 .then(() => {
                                     success.call(this, res, file);
