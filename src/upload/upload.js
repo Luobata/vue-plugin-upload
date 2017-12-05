@@ -1,16 +1,17 @@
 import lib from './lib';
 import { config } from './config';
-import { validateConf, validateSize, validateType, validateCap } from './validate';
+import { validateSize, validateType, validateCap } from './validate';
 import ajax from './ajax';
 import uploadSwf from './upload-swf';
 
-const lint = function (file) {
+const lint = (file) => {
     const result = {
         error: '',
-        errorType: 0
+        errorType: 0,
     };
-    const type = result.type = file.name.split('.').pop().toLowerCase();
-    const name = result.name = lib.getRandomString(32) + '.' + type;
+    const type = file.name.split('.').pop().toLowerCase();
+    result.type = type;
+    result.name = `${lib.getRandomString(32)}.${type}`;
 
     if (!validateSize.call(this, file.size)) {
         result.error = '图片大小不符合要求!';
@@ -28,10 +29,10 @@ const lint = function (file) {
 
 const uploadAjax = (file, name, conf) => {
     const formData = new FormData();
-    const uploadData = {
-        name: conf.fileName,
-        file: file
-    };
+    // const uploadData = {
+    //    name: conf.fileName,
+    //    file,
+    // };
     conf.file = file;
     formData.append(conf.fileName, file);
     conf.data = formData;
@@ -45,29 +46,29 @@ export default {
             type: Object,
         },
     },
-    data () {
+    data() {
         return {
             isHtml5: true,
             conf: {},
             id: 0,
         };
     },
-    beforeMount () {
+    beforeMount() {
         this.extendConf();
         this.isHtml5 = !!(window.File) && !config.forceFlash;
-        this.conf.id = 'id-' + (+new Date());
+        this.conf.id = `id-${+new Date()}`;
     },
     watch: {
-        config: function () {
+        config() {
             this.extendConf();
         },
     },
     computed: {
-        multiple: function () {
+        multiple() {
             return config.isMultiple;
-        }
+        },
     },
-    mounted () {
+    mounted() {
         const parent = this.$el.parentElement;
 
         if (lib.css(parent, 'position') === 'static' || lib.css(parent, 'position') === '') {
@@ -79,15 +80,15 @@ export default {
         }
     },
     methods: {
-        extendConf () {
+        extendConf() {
             const globalConf = Object.assign({}, config);
             this.conf = Object.assign(globalConf, this.config);
         },
-        upload (e) {
+        upload(e) {
             const file = e.target.files;
             let i;
             let item;
-            let errors = [];
+            const errors = [];
             let error = '';
 
             for (i = 0; i < file.length; i++) {
@@ -102,14 +103,14 @@ export default {
                 error += '图片格式不符合要求';
             }
             if (error) {
-                this.conf.fn({error: error});
+                this.conf.fn({ error });
                 return;
             }
             for (i = 0; i < file.length; i++) {
                 item = file[i];
                 const lintFile = lint.call(this, item);
                 // hack onchange
-                hack: {
+                {
                     const success = this.conf.fn;
                     this.conf.fn = (res, file) => {
                         this.$refs['upload-btn'].value = '';
@@ -125,9 +126,9 @@ export default {
                         }
                     };
                 }
-                this.conf.beforeUpload && this.conf.beforeUpload(item);
+                if (typeof this.conf.beforeUpload === 'function') this.conf.beforeUpload(item);
                 uploadAjax(item, lintFile.name, Object.assign({}, this.conf));
             }
         },
-    }
+    },
 };

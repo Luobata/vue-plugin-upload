@@ -9,8 +9,8 @@ const install = (Vue, config) => {
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
-};
+}
 
 module.exports = {
-    install
+    install,
 };

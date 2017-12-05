@@ -1,6 +1,6 @@
 const lib = {
-    extends: function (source, target) {
-        for (var k in target) {
+    extends(source, target) {
+        for (const k in target) {
             if (lib.isObject(target[k]) && lib.isObject(source[k])) {
                 lib.extends(source[k], target[k]);
             } else {
@@ -9,22 +9,21 @@ const lib = {
         }
         return source;
     },
-    clone: function (obj) {
-        var o;
-        if (typeof obj === "object") {
+    clone(obj) {
+        let o;
+        if (typeof obj === 'object') {
             if (obj === null) {
                 o = null;
+            } else if (obj instanceof Array) {
+                o = [];
+                for (let i = 0, len = obj.length; i < len; i++) {
+                    o.push(this.clone(obj[i]));
+                }
             } else {
-                if (obj instanceof Array) {
-                    o = [];
-                    for (var i = 0, len = obj.length; i < len; i++) {
-                        o.push(this.clone(obj[i]));
-                    }
-                } else {
-                    o = {};
-                    for (var j in obj) {
-                        o[j] = this.clone(obj[j]);
-                    }
+                o = {};
+                for (const j in obj) {
+                    if (!lib.has(obj, j)) continue;
+                    o[j] = this.clone(obj[j]);
                 }
             }
         } else {
@@ -32,46 +31,48 @@ const lib = {
         }
         return o;
     },
-    isObject: function (obj) {
+    isObject(obj) {
         return typeof obj === 'object' && !(obj instanceof Array);
     },
-    queryString: function (object) {
-        var data = [];
-        var key, val;
+    queryString(object) {
+        const data = [];
+        let key;
+        let val;
+
         for (key in object) {
-            if (object.hasOwnProperty(key)) {
+            // if (object.hasOwnProperty(key)) {
+            if (lib.has(object, key)) {
                 val = object[key];
-                data.push(key + '=' + encodeURIComponent(val));
+                data.push(`${key}=${encodeURIComponent(val)}`);
             }
         }
         return data.join('&');
     },
-    getRandomString: function (len) {
+    getRandomString(len) {
         len = len || 32;
-        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-        var maxPos = $chars.length;
-        var pwd = '';
-        for (var i = 0; i < len; i++) {
+        const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+        const maxPos = $chars.length;
+        let pwd = '';
+        for (let i = 0; i < len; i++) {
             pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
         }
         return pwd;
     },
-    getWidth: function (dom) {
+    getWidth(dom) {
         return dom.offsetWidth;
     },
-    getHeight: function (dom) {
+    getHeight(dom) {
         return dom.offsetHeight;
     },
-    prepend: function (dom, html) {
+    prepend(dom, html) {
         dom.innerHTML = html + dom.innerHTML;
     },
-    css: function (dom, sty, newSty) {
+    css(dom, sty, newSty) {
         if (!newSty) {
             return dom.style[sty];
-        } else {
-            dom.style[sty] = newSty;
-            return dom;
         }
+        dom.style[sty] = newSty;
+        return dom;
     },
     fnLoadScript: (src, fun) => {
         const head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
@@ -83,8 +84,8 @@ const lib = {
 
         if (typeof fun === 'function') {
             if (window.attachEvent) {
-                script.onreadystatechange = function () {
-                    var r = script.readyState;
+                script.onreadystatechange = () => {
+                    const r = script.readyState;
                     if (r === 'loaded' || r === 'complete') {
                         script.onreadystatechange = null;
                         fun();
@@ -97,9 +98,12 @@ const lib = {
 
         head.appendChild(script);
     },
-    isImg () {
+    isImg() {
         return true;
-    }
+    },
+    has(obj, key) {
+        return {}.hasOwnProperty.call(obj, key);
+    },
 };
 
 export default lib;

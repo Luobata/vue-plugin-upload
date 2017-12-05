@@ -38,6 +38,7 @@
     "no-mixed-operators": "off",
     "prefer-destructuring": "off",
     "import/no-named-as-default-member": "off",
-    "import/no-mutable-exports": "off"
+    "import/no-mutable-exports": "off",
+    "no-shadow": "off"
   }
 }

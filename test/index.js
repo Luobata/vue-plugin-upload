@@ -9,7 +9,8 @@ vue.use(upload, {
     uploadUrl: 'http://10.16.39.69:3000/demo/upload',
     fileName: 'file',
     type: '*',
-    // min: 100 * 1024,
+    //min: 20 * 1024,
+    max: 10 * 1024,
     max: null,
     isMultiple: true,
     resBase: '//t.focus-res.cn/front-end/upload/',
@@ -25,6 +26,7 @@ vue.use(upload, {
             return img;
         }
     },
+    forceFlash: true,
 });
 
 new vue({

@@ -1,38 +1,41 @@
 export default {
-    typeFormat (typeArray) {
+    typeFormat(typeArray) {
         if (typeArray === '*') return '*';
         if (!typeArray || !typeArray.length) return '';
-        typeArray.forEach(function (item, index) {
-            typeArray[index] = '*.' + item;
+        typeArray.forEach((item, index) => {
+            typeArray[index] = `*.${item}`;
         });
         return typeArray.join(';');
     },
-    sizeFormat (size) {
+    sizeFormat(size) {
         if (!size || !parseFloat(size, 10)) return '0B';
-        var unit = 'B';
-        var hihgUnit = function (unit) {
-            var unitUp = 'B';
+        let unit = 'B';
+        const hihgUnit = (unit) => {
+            let unitUp = 'B';
             switch (unit) {
-                case 'B':
-                    unitUp = 'KB';
-                    break;
-                case 'KB':
-                    unitUp = 'MB';
-                    break;
-                case 'MB':
-                    unitUp = 'GB';
-                    break;
-                case 'GB':
-                    unitUp = 'TB';
-                    break;
+            case 'B':
+                unitUp = 'KB';
+                break;
+            case 'KB':
+                unitUp = 'MB';
+                break;
+            case 'MB':
+                unitUp = 'GB';
+                break;
+            case 'GB':
+                unitUp = 'TB';
+                break;
+            default:
+                break;
             }
             return unitUp;
         };
-        var size = parseInt(size, 10);
-        while (size > 1024) {
+        let sizes = parseInt(size, 10);
+        while (sizes > 1024) {
             unit = hihgUnit(unit);
-            size = parseFloat(size / 1024, 10);
+            sizes = parseFloat(sizes / 1024, 10);
         }
-        return size + ' ' + unit;
-    }
+
+        return `${sizes} ${unit}`;
+    },
 };
