@@ -22,6 +22,6 @@ export const config = {
     forceFlash: false,
 };
 
-export const setConfig = (obj: Object) => {
+export const setConfig = (obj) => {
     Object.assign(config, obj);
 };

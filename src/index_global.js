@@ -1,9 +1,9 @@
 import app from './upload/upload.vue';
 import { setConfig } from './upload/config';
 
-const install = (Vue, config) => {
+const install = (Vue, config, name = '') => {
     setConfig(config);
-    Vue.component(app.name, app);
+    Vue.component(name || app.name, app);
 };
 
 /* istanbul ignore if */
