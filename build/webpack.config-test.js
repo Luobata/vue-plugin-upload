@@ -6,6 +6,7 @@ var root = path.resolve(__dirname, '../');
 var utils = require('./util.js')
 var assetsSubDirectory = 'static/';
 var cssSourceMap = true;
+var vueLoaderConfig = require('./vue-loader.conf');
 
 var webpackConfig = {
     entry : {
@@ -19,8 +20,7 @@ var webpackConfig = {
         filename: '[name].js'
     },
     resolve: {
-        extensions: ['', '.js', '.vue'],
-        fallback: [path.join(__dirname, '../node_modules')],
+        extensions: ['json', '.js', '.vue'],
         alias: {
             'vue': 'vue/dist/vue',
             'src': path.resolve(__dirname, '../src'),
@@ -31,22 +31,20 @@ var webpackConfig = {
             'COMPONENTS': path.resolve(__dirname, '../src/components')
         }
     },
-    resolveLoader: {
-        fallback: [path.join(__dirname, '../node_modules')]
-    },
     module: {
         loaders: [
             {
                 test: /\.vue$/,
-                loader: 'vue'
+                loader: 'vue-loader',
+                options: vueLoaderConfig
             },
             {
                 test: /\.json$/,
-                loader: 'json'
+                loader: 'json-loader'
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url',
+                loader: 'url-loader',
                 query: {
                     limit: 10000,
                     name: assetsSubDirectory + 'img/[name].[hash:7].[ext]'
@@ -54,7 +52,7 @@ var webpackConfig = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url',
+                loader: 'url-loader',
                 query: {
                     limit: 10000,
                     name: assetsSubDirectory + 'fonts/[name].[hash:7].[ext]'
@@ -62,21 +60,12 @@ var webpackConfig = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: root,
                 exclude: [
                     path.join(__dirname, '../node_modules/')
                 ]
             },
-            utils.styleLoaders({ sourceMap: cssSourceMap })
-        ]
-    },
-    vue: {
-        loaders: utils.cssLoaders(),
-        postcss: [
-            require('autoprefixer')({
-                browsers: ['last 2 versions']
-            })
         ]
     },
     devtool: 'source-map',

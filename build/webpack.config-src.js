@@ -1,6 +1,7 @@
 var assetsSubDirectory = 'static/';
 var path = require('path');
 var root = path.resolve(__dirname, '../');
+var vueLoaderConfig = require('./vue-loader.conf');
 
 module.exports = {
     devtool: 'source-map',
@@ -8,7 +9,7 @@ module.exports = {
     entry:  root + "/src/index_global.js",
     output: {
         path: root + "/dist/",
-        libraryTarget: 'commonjs',
+        libraryTarget: 'umd',
         filename: "upload.js"
     },
 
@@ -16,15 +17,16 @@ module.exports = {
         loaders: [
             {
                 test: /\.vue$/,
-                loader: 'vue'
+                loader: 'vue-loader',
+                options: vueLoaderConfig
             },
             {
                 test: /\.json$/,
-                loader: "json"
+                loader: "json-loader"
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url',
+                loader: 'url-loader',
                 query: {
                     limit: 10000,
                     name: assetsSubDirectory + 'img/[name].[hash:7].[ext]'
@@ -32,7 +34,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: root,
                 exclude: [
                     path.join(root, '../node_modules/')
@@ -40,7 +42,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: 'style!css'//添加对样式表的处理
+                loader: 'style-loader!css'//添加对样式表的处理
             }
         ]
     },

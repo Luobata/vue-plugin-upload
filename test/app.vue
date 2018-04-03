@@ -2,8 +2,8 @@
     <div id="app">
         <div class="upload-1">
             <div class="dom"></div>
-            <upload :config="config">
-            </upload>
+            <vue-upload :config="config">
+            </vue-upload>
         </div>
     </div>
 </template>

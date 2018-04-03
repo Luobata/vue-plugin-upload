@@ -27,11 +27,14 @@ vue.use(upload, {
         }
     },
     forceFlash: true,
-});
+    forceFlash: false,
+}, 'vue-upload');
 
-new vue({
-    el: '#app',
-    render (fn) {
-        return fn(app);
-    }
-});
+window.onload = () => {
+    new vue({
+        el: '#app',
+        render (fn) {
+            return fn(app);
+        }
+    });
+}
