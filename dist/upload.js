@@ -688,8 +688,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__validate__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ajax__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__upload_swf__ = __webpack_require__(11);
-var _this = this;
-
 
 
 
@@ -705,12 +703,12 @@ var lint = function lint(file) {
     result.type = type;
     result.name = __WEBPACK_IMPORTED_MODULE_0__lib__["a" /* default */].getRandomString(32) + '.' + type;
 
-    if (!__WEBPACK_IMPORTED_MODULE_2__validate__["b" /* validateSize */].call(_this, file.size)) {
+    if (!__WEBPACK_IMPORTED_MODULE_2__validate__["b" /* validateSize */].call(this, file.size)) {
         result.error = '图片大小不符合要求!';
         result.errorType = 1;
     }
 
-    if (!__WEBPACK_IMPORTED_MODULE_2__validate__["c" /* validateType */].call(_this, type)) {
+    if (!__WEBPACK_IMPORTED_MODULE_2__validate__["c" /* validateType */].call(this, type)) {
         result.error = '图片类型错误!';
         result.errorType = result.errorType ? 3 : 2;
         return result;
@@ -779,7 +777,7 @@ var uploadAjax = function uploadAjax(file, name, conf) {
             this.conf = Object.assign(globalConf, this.config);
         },
         upload: function upload(e) {
-            var _this2 = this;
+            var _this = this;
 
             var file = e.target.files;
             var i = void 0;
@@ -808,17 +806,17 @@ var uploadAjax = function uploadAjax(file, name, conf) {
                 // hack onchange
                 {
                     (function () {
-                        var success = _this2.conf.fn;
-                        _this2.conf.fn = function (res, file) {
-                            _this2.$refs['upload-btn'].value = '';
-                            if (_this2.conf.size && _this2.conf.size.validate && __WEBPACK_IMPORTED_MODULE_0__lib__["a" /* default */].isImg()) {
-                                __WEBPACK_IMPORTED_MODULE_2__validate__["a" /* validateCap */].call(null, _this2.conf.size.validate(res), _this2.conf).then(function () {
-                                    success.call(_this2, res, file);
+                        var success = _this.conf.fn;
+                        _this.conf.fn = function (res, file) {
+                            _this.$refs['upload-btn'].value = '';
+                            if (_this.conf.size && _this.conf.size.validate && __WEBPACK_IMPORTED_MODULE_0__lib__["a" /* default */].isImg()) {
+                                __WEBPACK_IMPORTED_MODULE_2__validate__["a" /* validateCap */].call(null, _this.conf.size.validate(res), _this.conf).then(function () {
+                                    success.call(_this, res, file);
                                 }, function (error) {
-                                    success.call(_this2, error);
+                                    success.call(_this, error);
                                 });
                             } else {
-                                success.call(_this2, res, file);
+                                success.call(_this, res, file);
                             }
                         };
                     })();
