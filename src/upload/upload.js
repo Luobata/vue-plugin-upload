@@ -4,7 +4,7 @@ import { validateSize, validateType, validateCap } from './validate';
 import ajax from './ajax';
 import uploadSwf from './upload-swf';
 
-const lint = (file) => {
+const lint = function lint(file) {
     const result = {
         error: '',
         errorType: 0,
