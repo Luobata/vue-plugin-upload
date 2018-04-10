@@ -26,6 +26,7 @@
         data () {
             return {
                 config: {
+                    uploadUrl: 'http://crm.bytedance.com/crm/v2/api/validate-clue-data/',
                     fn: function (res) {
                         console.log(res);
                     }

@@ -27,7 +27,7 @@ const lint = function lint(file) {
     return result;
 };
 
-const uploadAjax = (file, name, conf) => {
+const uploadAjax = (file, name, conf, data) => {
     const formData = new FormData();
     // const uploadData = {
     //    name: conf.fileName,
@@ -35,6 +35,9 @@ const uploadAjax = (file, name, conf) => {
     // };
     conf.file = file;
     formData.append(conf.fileName, file);
+    for (let i = 0; i < data.length; i++) {
+        formData.append(data[i].key, data[i].value);
+    }
     conf.data = formData;
     ajax(conf);
 };
@@ -44,6 +47,14 @@ export default {
     props: {
         config: {
             type: Object,
+        },
+        // Array<object>
+        // { key: keyName, value: valueName }
+        data: {
+            type: Array,
+            default() {
+                return [];
+            },
         },
     },
     data() {
@@ -127,7 +138,7 @@ export default {
                     };
                 }
                 if (typeof this.conf.beforeUpload === 'function') this.conf.beforeUpload(item);
-                uploadAjax(item, lintFile.name, Object.assign({}, this.conf));
+                uploadAjax(item, lintFile.name, Object.assign({}, this.conf, this.data));
             }
         },
     },

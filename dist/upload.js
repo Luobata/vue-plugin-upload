@@ -717,7 +717,7 @@ var lint = function lint(file) {
     return result;
 };
 
-var uploadAjax = function uploadAjax(file, name, conf) {
+var uploadAjax = function uploadAjax(file, name, conf, data) {
     var formData = new FormData();
     // const uploadData = {
     //    name: conf.fileName,
@@ -725,6 +725,9 @@ var uploadAjax = function uploadAjax(file, name, conf) {
     // };
     conf.file = file;
     formData.append(conf.fileName, file);
+    for (var i = 0; i < data.length; i++) {
+        formData.append(data[i].key, data[i].value);
+    }
     conf.data = formData;
     Object(__WEBPACK_IMPORTED_MODULE_3__ajax__["a" /* default */])(conf);
 };
@@ -734,6 +737,14 @@ var uploadAjax = function uploadAjax(file, name, conf) {
     props: {
         config: {
             type: Object
+        },
+        // Array<object>
+        // { key: keyName, value: valueName }
+        data: {
+            type: Array,
+            default: function _default() {
+                return [];
+            }
         }
     },
     data: function data() {
@@ -822,7 +833,7 @@ var uploadAjax = function uploadAjax(file, name, conf) {
                     })();
                 }
                 if (typeof this.conf.beforeUpload === 'function') this.conf.beforeUpload(item);
-                uploadAjax(item, lintFile.name, Object.assign({}, this.conf));
+                uploadAjax(item, lintFile.name, Object.assign({}, this.conf, this.data));
             }
         }
     }
