@@ -138,7 +138,7 @@ export default {
                     };
                 }
                 if (typeof this.conf.beforeUpload === 'function') this.conf.beforeUpload(item);
-                uploadAjax(item, lintFile.name, Object.assign({}, this.conf, this.data));
+                uploadAjax(item, lintFile.name, Object.assign({}, this.conf), this.data);
             }
         },
     },
